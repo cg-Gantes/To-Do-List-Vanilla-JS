@@ -1,0 +1,82 @@
+.modal.hidden {
+  display: none;
+}
+.blur {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #282828;
+  border-radius: 15px;
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  z-index: 2;
+}
+.modal-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 100%;
+}
+.title {
+  width: 90%;
+  background-color: #282828;
+  color: #d9d9d9;
+  border: none;
+  font-weight: bold;
+  font-size: 2rem;
+}
+.modal-description {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.description {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  background-color: #282828;
+  color: #d9d9d9;
+  border: none;
+  height: 100px; /* Set your desired initial height */
+  padding: 10px; /* Add some padding for better readability */
+  box-sizing: border-box; /* Include padding in the height calculation */
+  overflow: auto; /* Add scrollbars if the content exceeds the height */
+  resize: none;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 350px;
+  height: auto;
+  align-items: center;
+}
+
+.closeModal {
+  cursor: pointer;
+  color: #d9d9d9;
+}
+
+.add-list {
+  color: #edc90c;
+  padding: 5px;
+  height: 10px;
+}
