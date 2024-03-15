@@ -13,13 +13,27 @@
   </head>
   <body>
     <div class="overlay hidden" id="body">
-      <div class="container">
-        <div class="heading">
-          <h1>Task</h1>
-          <button class="add">+</button>
-        </div>
-        <div>
-          <li></li>
+      <div class="main-container">
+        <div class="container">
+          <div class="heading">
+            <h1>Task</h1>
+            <button class="add">+</button>
+          </div>
+          <section class="task task-list" id="taskList">
+            <span class="material-symbols-outlined" style="color: #edc90c; margin: 20px; font-size: 2rem; cursor: pointer"> edit </span>
+            <span class="material-symbols-outlined" style="color: #edc90c; font-size: 2rem; cursor: pointer"> check_circle </span>
+            <li>
+              <section class="taskList">
+                <div class="div-titleTask">
+                  <input type="text" class="titleTask" readonly disabled="disabled" />
+                </div>
+                <div class="div-descriptionTask">
+                  <textarea name="description" id="" cols="30" rows="10" class="descriptionTask" readonly disabled="disabled"></textarea>
+                </div>
+              </section>
+            </li>
+            <span class="material-symbols-outlined" style="color: rgb(241, 48, 48); font-size: 2rem; cursor: pointer"> delete </span>
+          </section>
         </div>
       </div>
     </div>
