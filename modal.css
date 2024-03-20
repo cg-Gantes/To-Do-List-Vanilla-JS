@@ -23,6 +23,7 @@ input {
   border: none;
   font-size: 2rem;
   color: #d9d9d9;
+  padding: 10px;
 }
 
 textarea {
@@ -32,11 +33,12 @@ textarea {
   font-size: 1rem;
   resize: none;
   border: none;
+  padding: 10px;
 }
 
 footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 10px;
 }
 

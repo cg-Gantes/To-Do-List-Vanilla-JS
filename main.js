@@ -6,41 +6,36 @@ const inputTitle = document.getElementById("input-title");
 const inputTextArea = document.getElementById("input-textarea");
 const listContainer = document.getElementById("list-task");
 
-//Open modal function
+// Open modal function
 const openModal = function () {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
 };
 openModalBtn.addEventListener("click", openModal);
 
-//Close modal function
+// Close modal function
 const closeModal = function () {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
 };
 closeModalBtn.addEventListener("click", closeModal);
 
-//Keypress close modal function
+// Close modal on escape key press
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && !modal.classList.contains("hidden")) {
     closeModal();
   }
 });
 
-//Adding task list
 // Function to add a task
 function addTask() {
   if (inputTitle.value === "" || inputTextArea.value === "") {
     alert("You must fill out all fields!");
   } else {
-    // Create a new list item element
-    let listItem = document.createElement("li");
-
-    // Create a new Date object to get the current date and time
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleString();
 
-    // Set the inner HTML of the list item
+    let listItem = document.createElement("li");
     listItem.innerHTML = `
       <div class="todo-list">
         <span class="material-symbols-outlined todo-span visible-hidden"> edit </span>
@@ -62,17 +57,14 @@ function addTask() {
       </div>
     `;
 
-    // Append the list item to the list container
     listContainer.appendChild(listItem);
 
-    // Update footer date
-    updateFooterDate();
+    // Save the data after adding a task
+    saveData();
 
-    // Clear the input fields
     inputTitle.value = "";
     inputTextArea.value = "";
 
-    // Close the modal
     closeModal();
   }
 }
@@ -87,106 +79,128 @@ function updateFooterDate() {
 // Function to delete a task
 function deleteTask(task) {
   task.remove();
+  saveData();
 }
 
-// Event delegation to handle clicks on delete icons
-listContainer.addEventListener("click", function (event) {
-  // Check if the clicked element has the class 'material-symbols-outlined' and contains the word 'delete'
-  if (event.target.classList.contains("material-symbols-outlined") && event.target.textContent.trim() === "delete") {
-    // Traverse up the DOM to find the parent list item
-    const task = event.target.closest("li");
-    if (task) {
-      // Call deleteTask function passing the task to be deleted
-      deleteTask(task);
-    }
-  }
-});
-
-//Function to edit task and save
-// Function to handle editing a task
 function editTask(task) {
-  // Find the todo-list div inside the task
   const todoList = task.querySelector(".todo-list");
-
-  // Enable editing by removing the 'readonly' attribute from inputs and textareas
   const inputs = todoList.querySelectorAll("input, textarea");
+  const dateSpan = todoList.querySelector(".todo-container div:nth-child(3) span");
+  const initialDate = dateSpan.textContent; // Store the initial date
+
   inputs.forEach((input) => {
     input.removeAttribute("readonly");
-    input.classList.add("editable"); // Add a class to mark as editable
+    input.classList.add("editable");
+    input.classList.add("editing");
   });
+
+  // Add the initial date as a data attribute to the todo-list container
+  todoList.dataset.initialDate = initialDate;
 }
 
-// Function to save changes made to a task
-// Function to handle editing a task
-function editTask(task) {
-  // Find the todo-list div inside the task
-  const todoList = task.querySelector(".todo-list");
-
-  // Enable editing by removing the 'readonly' attribute from inputs and textareas
-  const inputs = todoList.querySelectorAll("input, textarea");
-  inputs.forEach((input) => {
-    input.removeAttribute("readonly");
-    input.classList.add("editable"); // Add a class to mark as editable
-    input.classList.add("editing"); // Add a class to indicate edit mode
-  });
-}
-
-// Function to save changes made to a task
 function saveTask(task) {
-  // Find the todo-list div inside the task
   const todoList = task.querySelector(".todo-list");
+  const titleInput = task.querySelector("input[type='text']");
+  const textareaInput = task.querySelector("textarea");
+  const dateSpan = todoList.querySelector(".todo-container div:nth-child(3) span");
+  const initialDate = todoList.dataset.initialDate; // Get the initial date
 
-  // Disable editing by adding the 'readonly' attribute back to inputs and textareas
-  const inputs = todoList.querySelectorAll("input, textarea");
+  let isTaskEdited = false;
+
+  // Check if any input element is being edited
+  const inputs = todoList.querySelectorAll("input.editing, textarea.editing");
   inputs.forEach((input) => {
+    if (input.classList.contains("editing")) {
+      isTaskEdited = true;
+    }
     input.setAttribute("readonly", true);
-    input.classList.remove("editing"); // Remove the class indicating edit mode
+    input.classList.remove("editing");
   });
+
+  // Update title and textarea values if task was edited
+  if (isTaskEdited) {
+    titleInput.value = inputs[0].value; // Update title
+    textareaInput.value = inputs[1].value; // Update textarea
+
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString();
+    dateSpan.textContent = `Date: ${formattedDate}`;
+  } else {
+    dateSpan.textContent = initialDate; // Restore the initial date
+  }
+
+  saveData();
 }
 
-// Event delegation to handle clicks on edit and check icons
+// Event delegation to handle clicks on delete, edit, and done icons
 listContainer.addEventListener("click", function (event) {
   const clickedElement = event.target;
-
-  // Check if the clicked element has the class 'material-symbols-outlined'
   if (clickedElement.classList.contains("material-symbols-outlined")) {
     const parentTask = clickedElement.closest("li");
-
-    // Check if the clicked element is the edit span
-    if (clickedElement.textContent.trim() === "edit") {
-      if (parentTask) {
-        // Call editTask function passing the task to be edited
+    if (parentTask) {
+      if (clickedElement.textContent.trim() === "delete") {
+        deleteTask(parentTask);
+      } else if (clickedElement.textContent.trim() === "edit") {
         editTask(parentTask);
-      }
-    }
-    // Check if the clicked element is the check span
-    else if (clickedElement.textContent.trim() === "done") {
-      if (parentTask) {
-        // Call saveTask function passing the task to be saved
+      } else if (clickedElement.textContent.trim() === "done") {
         saveTask(parentTask);
       }
     }
   }
 });
 
-// Event delegation to handle clicks on tasks to save changes when user clicks outside the task
-document.addEventListener("click", function (event) {
-  const clickedElement = event.target;
+// Function to save data to local storage
+function saveData() {
+  const tasks = [];
+  const taskElements = listContainer.querySelectorAll("li");
+  taskElements.forEach((taskElement) => {
+    const title = taskElement.querySelector("input[type='text']").value;
+    const textarea = taskElement.querySelector("textarea").value;
+    const date = taskElement.querySelector(".todo-container div:nth-child(3) span").textContent;
+    tasks.push({ title, textarea, date });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
-  // Check if the clicked element is an editable input or textarea
-  if (clickedElement.classList.contains("editable")) {
-    return; // Do nothing if clicking on an editable element
-  }
+// Function to load saved data from local storage
+function loadSavedData() {
+  // Clear existing tasks
+  listContainer.innerHTML = "";
 
-  // Find the task containing the clicked element
-  const parentTask = clickedElement.closest("li");
-
-  // Check if the clicked element is outside any task
-  if (!parentTask) {
-    // Find all tasks in edit mode and save changes
-    const tasksInEditMode = listContainer.querySelectorAll(".editing");
-    tasksInEditMode.forEach((task) => {
-      saveTask(task);
+  const savedData = JSON.parse(localStorage.getItem("tasks"));
+  if (savedData) {
+    savedData.forEach((taskData) => {
+      let listItem = document.createElement("li");
+      listItem.innerHTML = `
+        <div class="todo-list">
+          <span class="material-symbols-outlined todo-span visible-hidden"> edit </span>
+          <span class="material-symbols-outlined todo-span visible-hidden"> done </span>
+          <div class="todo-hover-container">
+            <div class="todo-container">
+              <div>
+                <input type="text" value="${taskData.title}" readonly />
+              </div>
+              <div>
+                <textarea readonly>${taskData.textarea}</textarea>
+              </div>
+              <div>
+                <span>${taskData.date}</span>
+              </div>
+            </div>
+          </div>
+          <span class="material-symbols-outlined todo-span visible-hidden" style="background-color: red; color: #d9d9d9"> delete </span>
+        </div>
+      `;
+      listContainer.appendChild(listItem);
     });
+
+    // Update footer date only once after all tasks are loaded
+    updateFooterDate();
   }
+}
+
+// Load saved data when the page is loaded
+window.addEventListener("load", function () {
+  loadSavedData();
+  updateFooterDate(); // Update footer date when page is loaded
 });
