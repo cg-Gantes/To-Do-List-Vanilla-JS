@@ -1,0 +1,52 @@
+ul li {
+  list-style: none;
+}
+
+.todo-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 700px;
+  margin: 30px 30px 0px 30px;
+}
+
+.todo-list .todo-container {
+  width: 500px;
+  background-color: #282828;
+  padding: 1.3rem;
+  border-radius: 20px;
+  min-height: 300px;
+}
+
+.todo-list .todo-span {
+  font-size: 2rem;
+  background-color: #edc90c;
+  border-radius: 50%;
+  padding: 5px;
+  color: black;
+  font-weight: 500;
+  cursor: pointer;
+  visibility: hidden; /* Initially hide the .todo-span elements */
+}
+
+.todo-list .todo-container > div {
+  padding-bottom: 15px;
+}
+
+.todo-container {
+  cursor: default;
+}
+.todo-container input,
+.todo-container textarea {
+  cursor: default; /* or any other desired cursor style */
+}
+
+/* Show the .todo-span elements when .todo-list is hovered */
+.todo-list:hover .todo-span {
+  visibility: visible;
+}
+
+#list-task textarea {
+  width: 100%; /* Set the width to 100% to ensure it stretches to fill its container */
+  min-height: 200px; /* Set a minimum height to prevent it from becoming too small */
+}
