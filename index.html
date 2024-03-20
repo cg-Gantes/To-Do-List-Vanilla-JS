@@ -3,54 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To Do List</title>
+    <title>To do list</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./modal.css" />
+    <link rel="stylesheet" href="./task-list.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="overlay hidden" id="body">
-      <div class="main-container">
-        <div class="container">
-          <div class="heading">
-            <h1>Task</h1>
-            <button class="add">+</button>
+    <header>
+      <h1>Task</h1>
+      <button class="btn btn-open"><span class="material-symbols-outlined"> add </span></button>
+    </header>
+    <ul id="list-task">
+      <!-- <li>
+        <div class="todo-list">
+          <span class="material-symbols-outlined todo-span visible-hidden"> edit </span>
+          <span class="material-symbols-outlined todo-span visible-hidden"> done </span>
+          <div class="todo-hover-container">
+            <div class="todo-container">
+              <div>
+                <input type="text" name="" id="" placeholder="Title" readonly />
+              </div>
+              <div>
+                <textarea name="" id="" cols="30" rows="10" placeholder="Add Task Description" readonly></textarea>
+              </div>
+            </div>
           </div>
-          <section class="task task-list" id="taskList">
-            <span class="material-symbols-outlined" style="color: #edc90c; margin: 20px; font-size: 2rem; cursor: pointer"> edit </span>
-            <span class="material-symbols-outlined" style="color: #edc90c; font-size: 2rem; cursor: pointer"> check_circle </span>
-            <li>
-              <section class="taskList">
-                <div class="div-titleTask">
-                  <input type="text" class="titleTask" readonly disabled="disabled" />
-                </div>
-                <div class="div-descriptionTask">
-                  <textarea name="description" id="" cols="30" rows="10" class="descriptionTask" readonly disabled="disabled"></textarea>
-                </div>
-              </section>
-            </li>
-            <span class="material-symbols-outlined" style="color: rgb(241, 48, 48); font-size: 2rem; cursor: pointer"> delete </span>
-          </section>
+          <span class="material-symbols-outlined todo-span visible-hidden" style="background-color: red; color: #d9d9d9"> delete </span>
         </div>
-      </div>
-    </div>
+      </li> -->
+    </ul>
     <section class="modal hidden">
-      <div class="modal-title">
-        <input type="title" placeholder="Title" class="title" />
-        <p class="closeModal" style="margin-left: 20px; font-size: 1rem">X</p>
+      <div class="title-container">
+        <input type="text" name="" id="input-title" placeholder="Title" />
+        <span class="material-symbols-outlined btn-close"> close </span>
       </div>
-      <div class="modal-description">
-        <textarea class="description" placeholder="Add Task Description" name="" id="" cols="30" rows="10"></textarea>
+      <div class="textarea-container">
+        <textarea name="" id="input-textarea" cols="30" rows="10" placeholder="Add Task Description"></textarea>
       </div>
-      <div class="modal-footer">
-        <p>Date</p>
-        <span class="material-symbols-outlined add-list"> add_task </span>
-      </div>
+      <footer>
+        <p id="footer-date">Date</p>
+        <span class="material-symbols-outlined add-list" onclick="addTask()" style="font-size: 2rem"> send </span>
+      </footer>
     </section>
-
+    <div class="overlay hidden"></div>
     <script src="main.js"></script>
   </body>
 </html>
