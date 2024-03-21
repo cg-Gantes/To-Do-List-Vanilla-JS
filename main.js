@@ -49,7 +49,7 @@ function addTask() {
               <textarea readonly>${inputTextArea.value}</textarea>
             </div>
             <div>
-              <span>Date: ${formattedDate}</span>
+              <span class="date-footer" style:"padding: 10px; margin: 0;">Date: ${formattedDate}</span>
             </div>
           </div>
         </div>

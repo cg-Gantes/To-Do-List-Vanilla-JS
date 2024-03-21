@@ -5,11 +5,12 @@
   background-color: #282828;
   padding: 1.3rem;
   border-radius: 20px;
-  min-height: 300px;
+  min-height: 200px; /* Adjust the min-height value as needed */
   position: absolute;
   top: 20%;
   z-index: 2;
 }
+
 .title-container {
   display: flex;
   justify-content: space-between;
@@ -18,10 +19,10 @@
 }
 input {
   width: 90%;
-  height: 40px;
+  height: 30px;
   background-color: #282828;
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #d9d9d9;
   padding: 10px;
 }
@@ -34,6 +35,7 @@ textarea {
   resize: none;
   border: none;
   padding: 10px;
+  height: 120px;
 }
 
 footer {
@@ -65,4 +67,10 @@ footer {
 
 .btn-close {
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 80%;
+  }
 }
