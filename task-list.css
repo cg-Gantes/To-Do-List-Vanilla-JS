@@ -1,32 +1,43 @@
+ul {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 ul li {
   list-style: none;
+  width: 100%;
 }
 
 .todo-list {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 700px;
-  margin: 30px 30px 0px 30px;
+  justify-content: space-evenly;
+  width: 100%; /* Adjust width as needed */
 }
 
 .todo-list .todo-container {
-  width: 500px;
+  flex-grow: 1; /* Allow the todo-container to grow to fill available space */
+  width: 100%; /* Limit maximum width */
   background-color: #282828;
   padding: 1.3rem;
   border-radius: 20px;
 }
 
 .todo-list .todo-span {
-  font-size: 2rem;
+  font-size: 1.5rem; /* Adjust font size as needed */
   background-color: #edc90c;
   border-radius: 50%;
-  padding: 5px;
+  padding: 10px; /* Adjust padding as needed */
+  margin: 5px; /* Adjust margin as needed */
   color: black;
   font-weight: 500;
   cursor: pointer;
   visibility: hidden; /* Initially hide the .todo-span elements */
 }
+
+/* Show the .todo-span elements when .todo-list is hovered */
 
 .todo-list .todo-container > div {
   padding-bottom: 15px;
@@ -35,6 +46,7 @@ ul li {
 .todo-container {
   cursor: default;
 }
+
 .todo-container input,
 .todo-container textarea {
   cursor: default; /* or any other desired cursor style */
@@ -45,24 +57,36 @@ ul li {
   visibility: visible;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
+  ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0; /* Reset padding to remove any default spacing */
+    margin: 0; /* Reset margin */
+  }
+
+  li {
+    width: 100%; /* Set the width of li elements to 100% */
+    padding: 0; /* Reset padding */
+    margin: 0; /* Reset margin */
+  }
+
   .todo-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-  }
-
-  .todo-list .todo-hover-container {
-    width: 400px;
-  }
-  .todo-list .todo-container {
-    width: 80%;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
   }
 
   .todo-list .todo-span {
     display: inline-block; /* Set display to inline-block */
-    margin-right: 10px; /* Adjust margin as needed */
+    margin-right: 10px; /* Adjust margin as needed to create space between spans */
+  }
+}
+@media (min-width: 641px) {
+  /* Target desktop view */
+  .todo-list .todo-container {
+    width: 500px; /* Set the desired width for desktop view */
   }
 }
